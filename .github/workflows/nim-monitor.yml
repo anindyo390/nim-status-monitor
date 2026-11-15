@@ -1,0 +1,24 @@
+name: Monitor NVIDIA NIM Nemotron
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # setiap 5 menit
+  workflow_dispatch:        # biar bisa jalankan manual juga
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node check-nim.js
+        env:
+          NIM_BASE_URL: ${{ secrets.NIM_BASE_URL }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          MODEL_SUPER: ${{ secrets.MODEL_SUPER }}
+          MODEL_ULTRA: ${{ secrets.MODEL_ULTRA }}
+          COMPONENT_SUPER: ${{ secrets.COMPONENT_SUPER }}
+          COMPONENT_ULTRA: ${{ secrets.COMPONENT_ULTRA }}
+          STATUSPAGE_PAGE_ID: ${{ secrets.STATUSPAGE_PAGE_ID }}
+          STATUSPAGE_API_KEY: ${{ secrets.STATUSPAGE_API_KEY }}
